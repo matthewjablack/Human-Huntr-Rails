@@ -6,9 +6,19 @@ class User < ApplicationRecord
 
 
   before_save :ensure_authentication_token
+  before_save :full_name
 
   def ensure_authentication_token
     self.authentication_token ||= generate_authentication_token
+  end
+  
+
+  def full_name
+    if !self.first_name.nil? && !self.last_name.nil?
+      if self.name != (self.first_name + " " + self.last_name)
+        self.update_attribute(:name, self.first_name + " " + self.last_name)
+      end
+    end
   end
 
   private
