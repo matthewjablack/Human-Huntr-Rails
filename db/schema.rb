@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170204083254) do
+ActiveRecord::Schema.define(version: 20170204160405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(version: 20170204083254) do
     t.string   "name"
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "game_id"
     t.float    "longitude"
     t.float    "latitude"
+    t.integer  "game_id",                default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
