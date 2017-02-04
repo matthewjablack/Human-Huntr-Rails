@@ -8,7 +8,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     # build_resource
 
     # resource.skip_confirmation!
-    binding.pry
     resource = User.new(user_params)
     if resource.save
       sign_in resource
