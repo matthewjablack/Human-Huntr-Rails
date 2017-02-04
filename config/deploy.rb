@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, 'human_huntr'
-set :repo_url, 'git@github.com/mattBlackDesign/human-huntr-rails.git'
+set :repo_url, 'git@github.com:mattBlackDesign/human-huntr-rails.git'
 
 set :deploy_to, '/home/deploy'
 
