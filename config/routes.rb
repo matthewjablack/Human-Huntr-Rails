@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
       post 'game/create' => 'games#create', as: 'game_create'
       get 'games' => 'games#index', as: 'games'
+      get 'game/user_positions' => 'games#user_positions', as: 'user_positions'
 
     end
   end

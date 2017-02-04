@@ -43,6 +43,21 @@ class Api::V1::GamesController < ApplicationController
   end
 
 
+  def user_positions
+    if @user.game_id != 0
+      @game = @user.game
+      @users = @game.users.where.not(user_id: @user.id)
+      render :status => 200,
+             :json => { :success => true,
+                        :info => "Game users location",
+                        :data => { users: serialize_users(@users) } }
+    else
+
+    end
+    
+  end
+
+
 
   
 
@@ -66,6 +81,18 @@ class Api::V1::GamesController < ApplicationController
                           :info => "Authentication failed",
                           :data => {} }
        end
+    end
+
+
+    def serialize_users(users)
+      users.map do |user|
+          {
+            id: user.id, 
+            longitude: user.longitude,
+            latitude: user.latitude,
+            it: user.it
+          }
+        end
     end
 
 
