@@ -26,6 +26,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
 
+# Capistrano
+gem 'capistrano', '3.4.0'
+gem 'capistrano-bundler', '~> 1.1.2'
+gem 'capistrano-rails', '~> 1.1.1'
+gem 'capistrano3-delayed-job', '~> 1.0'
+gem 'capistrano-rvm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
