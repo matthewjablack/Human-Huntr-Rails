@@ -20,12 +20,12 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find_by_email(params[:email])
     if @user.present?
       @user.send_reset_password_instructions
-      render :status => 200, 
+      render :status => 200,
              :json => { :success => true,
                         :info => "Password instructions have been sent to your email",
                         :data => {} }
     else
-      render :status => 401, 
+      render :status => 401,
              :json => { :success => false,
                         :info => "Email not found",
                         :data => {} }
@@ -37,15 +37,36 @@ class Api::V1::UsersController < ApplicationController
       render :status => 200,
                :json => { :success => true,
                           :info => "Successfully update profile info",
-                          :data => {} } 
+                          :data => {} }
     else
       render :status => 401,
                :json => { :success => false,
                           :info => "Error updating profile info",
-                          :data => {} } 
+                          :data => {} }
     end
   end
 
+  def update_position
+    if @user.game_id != 0
+      @user.update_attributes(user_params)
+      @game = @user.game
+    end
+
+      dist = @game.distance_between(@user.longitude, @user.latitude, @game.longitude, @game.latitude)
+      in_radius = @game.proximity(@game.radius, dist)
+
+    if in_radius
+      render :status => 200,
+               :json => { :success => true,
+                          :info => "Success, in game!",
+                          :data => {} }
+    else
+      render :status => 401,
+               :json => { :success => false,
+                          :info => "Out of game!",
+                          :data => {} }
+    end
+  end
 
 
   private
@@ -62,8 +83,8 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def user_params
-		params.require(:user).permit(:name, :email, :first_name, :last_name, :password, :password_confirmtion)
-	end
+		    params.require(:user).permit(:name, :email, :first_name, :last_name, :password, :password_confirmation, :longitude, :latitude)
+	  end
 
 
 

@@ -25,14 +25,25 @@ class Api::V1::GamesController < ApplicationController
 		else
       render :status => 401,
              :json => { :success => false,
-                        :info => "Error, game not saved",
+                        :info => "Error, game not saved.",
                         :data => {} }
 		end
   end
 
   def current_position
+    if @user.game_id != 0
+      @game = user.game
+      render :status => 200,
+             :json => { :success => true,
+                        :info => "Success! Current position returned.",
+                        :data => {} }
+    elsif
 
+    end
   end
+
+  def update_position
+    @user.update_attributes(user_params)
 
 
 
@@ -42,6 +53,7 @@ class Api::V1::GamesController < ApplicationController
   def game_params
     params.require(:game).permit(:name, :user_id, :longitude, :latitude, :radius)
   end
+
 
 
     def check_authentication
