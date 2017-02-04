@@ -33,7 +33,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
+  	binding.pry
+    if @user.update_attributes(user_params)
       render :status => 200,
                :json => { :success => true,
                           :info => "Successfully update profile info",
@@ -60,6 +61,10 @@ class Api::V1::UsersController < ApplicationController
                           :data => {} }
        end
     end
+
+    def user_params
+		params.require(:user).permit(:name, :email, :first_name, :last_name, :password, :password_confirmtion)
+	end
 
 
 
