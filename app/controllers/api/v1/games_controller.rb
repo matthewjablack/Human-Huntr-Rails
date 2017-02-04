@@ -10,6 +10,23 @@ class Api::V1::GamesController < ApplicationController
 
   respond_to :json
 
+  def index 
+    @games = Game.all
+    if @games.count > 0
+      render :status => 200,
+             :json => { :success => true,
+                        :info => "Games loaded",
+                        :data => {games: @games} }
+    else
+      render :status => 401,
+             :json => { :success => false,
+                        :info => "There are no games",
+                        :data => {} }
+    end
+  end
+
+  
+
   def create
     @game = Game.new(game_params)
 		if @game.save
@@ -17,11 +34,6 @@ class Api::V1::GamesController < ApplicationController
              :json => { :success => true,
                         :info => "Success! Game has been saved.",
                         :data => {} }
-			#@group.fix_private
-
-		  #	current_user.create_group_admin_member(@group)
-			#redirect_to organization_group_path([@group.organization.url], [@group.url])
-			# redirect_to root_path
 		else
       render :status => 401,
              :json => { :success => false,
@@ -30,29 +42,18 @@ class Api::V1::GamesController < ApplicationController
 		end
   end
 
-  def current_position
-    if @user.game_id != 0
-      @game = user.game
-      render :status => 200,
-             :json => { :success => true,
-                        :info => "Success! Current position returned.",
-                        :data => {} }
-    elsif
 
-    end
-  end
 
-  def update_position
-    @user.update_attributes(user_params)
+  
 
 
 
 
   private
 
-  def game_params
-    params.require(:game).permit(:name, :user_id, :longitude, :latitude, :radius)
-  end
+    def game_params
+      params.require(:game).permit(:name, :user_id, :longitude, :latitude, :radius)
+    end
 
 
 
@@ -66,6 +67,8 @@ class Api::V1::GamesController < ApplicationController
                           :data => {} }
        end
     end
+
+
 
 
 

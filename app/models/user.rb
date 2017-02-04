@@ -8,6 +8,8 @@ class User < ApplicationRecord
   before_save :ensure_authentication_token
   before_save :full_name
 
+  belongs_to :game
+
   def ensure_authentication_token
     self.authentication_token ||= generate_authentication_token
   end

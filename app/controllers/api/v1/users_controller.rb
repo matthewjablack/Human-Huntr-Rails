@@ -50,22 +50,72 @@ class Api::V1::UsersController < ApplicationController
     if @user.game_id != 0
       @user.update_attributes(user_params)
       @game = @user.game
-    end
+
 
       dist = @game.distance_between(@user.longitude, @user.latitude, @game.longitude, @game.latitude)
-      in_radius = @game.proximity(@game.radius, dist)
+		  in_radius = @game.proximity(@game.radius, dist)
 
-    if in_radius
-      render :status => 200,
-               :json => { :success => true,
-                          :info => "Success, in game!",
-                          :data => {} }
+	    if in_radius
+	      render :status => 200,
+	               :json => { :success => true,
+	                          :info => "Success, in game!",
+	                          :data => {} }
+	    else
+	      render :status => 401,
+	               :json => { :success => false,
+	                          :info => "Out of game!",
+	                          :data => {} }
+	    end
+
+	  elsif 
+	  	render :status => 401,
+	               :json => { :success => false,
+	                          :info => "Out of game!",
+	                          :data => {} }
+    end
+  end
+
+  def join_game
+    if params[:game_id]
+      if Game.where(id: params[:game_id]).count > 0 
+      	if @user.update_attributes(user_params)
+      		render :status => 200,
+	               :json => { :success => true,
+	                          :info => "Success, in game!",
+	                          :data => {} }
+      	elsif 
+      		render :status => 401,
+             :json => { :success => false,
+                        :info => "Error",
+                        :data => {} }
+      	end
+      else
+      	render :status => 401,
+             :json => { :success => false,
+                        :info => "Error",
+                        :data => {} }
+      end
     else
       render :status => 401,
-               :json => { :success => false,
-                          :info => "Out of game!",
-                          :data => {} }
+             :json => { :success => false,
+                        :info => "No Game ID",
+                        :data => {} }
     end
+  end
+
+
+  def leave_game
+  	if @user.update_attributes(game_id: 0)
+  		render :status => 200,
+	               :json => { :success => true,
+	                          :info => "Successfully left game",
+	                          :data => {} }
+  	else
+  		render :status => 401,
+             :json => { :success => false,
+                        :info => "Error leaving game",
+                        :data => {} }
+  	end
   end
 
 
@@ -83,7 +133,7 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def user_params
-		    params.require(:user).permit(:name, :email, :first_name, :last_name, :password, :password_confirmation, :longitude, :latitude)
+		    params.require(:user).permit(:name, :email, :first_name, :last_name, :password, :password_confirmation, :longitude, :latitude, :game_id)
 	  end
 
 

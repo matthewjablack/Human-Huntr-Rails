@@ -17,6 +17,13 @@ Rails.application.routes.draw do
       get 'current_user' => 'users#get_current_user', as: 'get_current_user'
       post 'reset_password' => 'users#reset_password', as: 'reset_password'
       post 'user/update' => 'users#update', as: 'user_update'
+      post 'user/update_position' => 'users#update_position', as: 'user_update_position'
+      post 'user/join_game' => 'users#join_game', as: 'user_join_game'
+      post 'user/leave_game' => 'users#leave_game', as: 'user_leave_game'
+
+      post 'game/create' => 'games#create', as: 'game_create'
+      get 'games' => 'games#index', as: 'games'
+
     end
   end
 

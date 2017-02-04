@@ -1,5 +1,7 @@
 class Game < ApplicationRecord
 
+  has_many :users
+
   # consumes two coordinates, outputs distance between in kilometers
   # http://www.geodatasource.com/developers/javascript
   def distance_between (long1, long2, lat1, lat2)
