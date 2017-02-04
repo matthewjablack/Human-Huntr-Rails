@@ -33,7 +33,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-  	binding.pry
     if @user.update_attributes(user_params)
       render :status => 200,
                :json => { :success => true,
