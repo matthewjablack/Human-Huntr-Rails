@@ -1,8 +1,0 @@
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: human_huntr
-  pool: 5
-  username: mblack
-  password: cityfun131
-  host: localhost
